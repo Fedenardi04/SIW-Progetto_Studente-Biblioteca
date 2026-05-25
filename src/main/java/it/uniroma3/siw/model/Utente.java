@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Utente {
@@ -14,8 +15,11 @@ public class Utente {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+	@NotBlank
 	private String name;
+	@NotBlank
 	private String surname;
+	@NotBlank
     @Column(nullable = false, unique = true)
 	private String email;
 
