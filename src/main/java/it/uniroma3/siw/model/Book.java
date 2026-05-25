@@ -1,5 +1,6 @@
 package it.uniroma3.siw.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -7,6 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -15,23 +19,36 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
-public class Libro {
+public class Book {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;	
+	
 	@NotBlank
 	@Column(nullable = false)
 	private String title;
+	
 	@NotNull
 	@Min(1450)
 	@Max(2026)
 	@Column(nullable = false)
 	private Integer year;
+	
 	@Size(max = 2048)
     @Pattern(regexp = "(https?://.*)?", message = "Must be a valid URL or empty")
     @Column(nullable = true)
 	private String urlImage;
+	
+	@ManyToOne
+	@JoinColumn(name = "author_id")
+	private Author author;
+	
+	@OneToMany(mappedBy = "book")
+	private List<Loan> loans;
+	
+	@OneToMany(mappedBy = "book")
+	private List<Review> reviews;
 	
 	public Long getId() {
 		return id;
@@ -69,7 +86,7 @@ public class Libro {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Libro other = (Libro) obj;
+		Book other = (Book) obj;
 		return Objects.equals(title, other.title) && Objects.equals(year, other.year);
 	}
 

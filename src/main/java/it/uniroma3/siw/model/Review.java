@@ -8,22 +8,31 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
-public class Prestito {
+public class Review {
 
 	@Id	
 	@GeneratedValue(strategy = GenerationType.AUTO)	
 	private Long id;
+	@NotBlank
+	@Size(min = 5, max = 1000)
+	@Column(nullable = false, length = 1000)
+	private String text;
 	@NotNull
 	@Column(nullable = false)
-	private LocalDate startDate;
-	@NotNull
-	@Column(nullable = false)
-	private LocalDate endDate;
-	@Column(nullable = false)
-	private boolean returned;
+	private LocalDate creationDate;
+	@ManyToOne
+	@JoinColumn(name = "book_id")
+	private Book book;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 	
 	public Long getId() {
 		return id;
@@ -31,30 +40,22 @@ public class Prestito {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public LocalDate getStartDate() {
-		return startDate;
+	public String getText() {
+		return text;
 	}
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
+	public void setText(String text) {
+		this.text = text;
 	}
-	public LocalDate getEndDate() {
-		return endDate;
+	public LocalDate getCreationDate() {
+		return creationDate;
 	}
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
 	}
-	public boolean isReturned() {
-		return returned;
-	}
-	public void setReturned(boolean returned) {
-		this.returned = returned;
-	}
-	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -63,7 +64,7 @@ public class Prestito {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Prestito other = (Prestito) obj;
+		Review other = (Review) obj;
 		return Objects.equals(id, other.id);
 	}
 
