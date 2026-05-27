@@ -67,6 +67,22 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public List<Loan> getLoans() {
+		return loans;
+	}
+
+	public void setLoans(List<Loan> loans) {
+		this.loans = loans;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
 
 	@Override
 	public int hashCode() {
@@ -92,4 +108,6 @@ public class User {
 			return false;
 		return true;
 	}
+
+	
 }

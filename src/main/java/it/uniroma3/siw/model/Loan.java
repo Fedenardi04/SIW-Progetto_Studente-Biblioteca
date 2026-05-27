@@ -64,6 +64,21 @@ public class Loan {
 		this.returned = returned;
 	}
 	
+	public Book getBook() {
+		return book;
+	}
+	public void setBook(Book book) {
+		this.book = book;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -80,6 +95,5 @@ public class Loan {
 		Loan other = (Loan) obj;
 		return Objects.equals(id, other.id);
 	}
-
-
+	
 }

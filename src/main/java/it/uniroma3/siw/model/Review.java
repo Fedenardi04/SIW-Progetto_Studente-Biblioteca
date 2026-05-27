@@ -52,6 +52,20 @@ public class Review {
 	public void setCreationDate(LocalDate creationDate) {
 		this.creationDate = creationDate;
 	}
+	public Book getBook() {
+		return book;
+	}
+	public void setBook(Book book) {
+		this.book = book;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -67,6 +81,5 @@ public class Review {
 		Review other = (Review) obj;
 		return Objects.equals(id, other.id);
 	}
-
-
+	
 }

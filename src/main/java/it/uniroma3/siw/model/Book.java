@@ -78,6 +78,27 @@ public class Book {
 	public void setUrlImage(String urlImage) {
 		this.urlImage = urlImage;
 	}
+	
+	public Author getAuthor() {
+		return author;
+	}
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
+	public List<Loan> getLoans() {
+		return loans;
+	}
+	public void setLoans(List<Loan> loans) {
+		this.loans = loans;
+	}
+	public List<Review> getReviews() {
+		return reviews;
+	}
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(title, year);
@@ -93,6 +114,7 @@ public class Book {
 		Book other = (Book) obj;
 		return Objects.equals(title, other.title) && Objects.equals(year, other.year);
 	}
+	
 
 
 

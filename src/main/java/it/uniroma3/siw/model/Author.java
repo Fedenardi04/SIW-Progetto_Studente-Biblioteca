@@ -54,6 +54,15 @@ public class Author {
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
+	
+	public List<Book> getBooks() {
+		return books;
+	}
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
+
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -69,6 +78,5 @@ public class Author {
 		Author other = (Author) obj;
 		return Objects.equals(id, other.id);
 	}
-
-
+	
 }
