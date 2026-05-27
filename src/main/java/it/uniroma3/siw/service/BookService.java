@@ -1,6 +1,7 @@
 package it.uniroma3.siw.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -19,9 +20,8 @@ public class BookService {
 	}
 
 
-	public Book findBookById(Long id) {
-		return bookRepository.findById(id)
-	            .orElseThrow(() -> new RuntimeException("Book not found"));	
+	public Optional<Book> findBookById(Long id) {
+		return bookRepository.findById(id);
 	}
 	
 	public List<Book> findAllBooks() {
@@ -42,8 +42,7 @@ public class BookService {
 	
 	@Transactional
 	public void deleteBook(Long id) {
-		Book book = findBookById(id);
-        bookRepository.delete(book);
+        bookRepository.deleteById(id);
     }
 
 	
