@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import it.siw.uniroma3.it.exception.DuplicateBookException;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.repository.BookRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class BookService {
@@ -27,6 +28,7 @@ public class BookService {
         return bookRepository.findAllWithAuthor();
     }
 	
+	@Transactional
 	public Book saveBook(Book book) {
 		boolean duplicate = book.getId() == null
 	            ? bookRepository.existsByTitleAndYear(book.getTitle(), book.getYear())
@@ -38,6 +40,7 @@ public class BookService {
 		    
 	}
 	
+	@Transactional
 	public void deleteBook(Long id) {
 		Book book = findBookById(id);
         bookRepository.delete(book);

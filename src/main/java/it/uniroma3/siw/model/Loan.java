@@ -63,7 +63,6 @@ public class Loan {
 	public void setReturned(boolean returned) {
 		this.returned = returned;
 	}
-	
 	public Book getBook() {
 		return book;
 	}
@@ -78,7 +77,6 @@ public class Loan {
 	}
 
 
-	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
