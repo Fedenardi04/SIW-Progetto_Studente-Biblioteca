@@ -16,6 +16,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	
 	boolean existsByTitleAndYear(String title, Integer year);
 	
+	boolean existsByTitleAndYearAndIdNot(String title, Integer year, Long id);
+	
 	Optional<Book> findByTitleAndYear(String title, Integer year);
 	
 	@Query("SELECT b FROM Book b JOIN FETCH b.author")

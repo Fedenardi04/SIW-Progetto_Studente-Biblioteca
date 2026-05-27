@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import it.siw.uniroma3.it.exception.DuplicateBookException;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.repository.BookRepository;
 
@@ -27,23 +28,20 @@ public class BookService {
     }
 	
 	public Book saveBook(Book book) {
-        return bookRepository.save(book);
-    }
+		boolean duplicate = book.getId() == null
+	            ? bookRepository.existsByTitleAndYear(book.getTitle(), book.getYear())
+	            : bookRepository.existsByTitleAndYearAndIdNot(book.getTitle(), book.getYear(), book.getId());
+	        if (duplicate) {
+	            throw new DuplicateBookException(book.getTitle(), book.getYear());
+	        }
+	        return bookRepository.save(book);   
+		    
+	}
 	
 	public void deleteBook(Long id) {
 		Book book = findBookById(id);
         bookRepository.delete(book);
     }
 
-    public Book updateBook(Long id, Book updatedBook) {
-        Book book = findBookById(id);
-
-        book.setTitle(updatedBook.getTitle());
-        book.setYear(updatedBook.getYear());
-        book.setAuthor(updatedBook.getAuthor());
-
-        return bookRepository.save(book);
-    }
-	
 	
 }
