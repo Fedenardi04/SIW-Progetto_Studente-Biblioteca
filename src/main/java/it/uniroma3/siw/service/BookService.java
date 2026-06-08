@@ -25,7 +25,7 @@ public class BookService {
 	}
 	
 	public List<Book> findAllBooks() {
-        return bookRepository.findAllWithAuthor();
+        return bookRepository.findAll();
     }
 	
 	@Transactional
