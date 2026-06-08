@@ -97,11 +97,9 @@ public class Book {
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
-	
-	
 	@Override
 	public int hashCode() {
-		return Objects.hash(title, year);
+		return Objects.hash(id);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -112,10 +110,11 @@ public class Book {
 		if (getClass() != obj.getClass())
 			return false;
 		Book other = (Book) obj;
-		return Objects.equals(title, other.title) && Objects.equals(year, other.year);
+		return Objects.equals(id, other.id);
 	}
 	
-
+	
+	
 
 
 }
