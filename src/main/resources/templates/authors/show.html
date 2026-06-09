@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dettaglio Autore</title>
+</head>
+<body>
+
+<h1>Dettaglio Autore</h1>
+
+<p><b>Nome:</b> <span th:text="${author.name}"></span></p>
+<p><b>Cognome:</b> <span th:text="${author.surname}"></span></p>
+<p><b>Data di nascita:</b> <span th:text="${author.birthDate}"></span></p>
+
+<h2>Libri scritti</h2>
+
+<div th:if="${author.books == null or author.books.isEmpty()}">
+    <p>Nessun libro associato a questo autore.</p>
+</div>
+
+<ul th:if="${author.books != null and !author.books.isEmpty()}">
+    <li th:each="book : ${author.books}">
+        <a th:href="@{'/books/' + ${book.id}}" th:text="${book.title}"></a>
+        <span th:text="'(' + ${book.year} + ')'"></span>
+    </li>
+</ul>
+
+<br>
+
+<a href="/authors">Torna alla lista autori</a>
+
+</body>
+</html>
