@@ -1,29 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Dettaglio Libro</title>
+    <title>Dettaglio libro</title>
 </head>
 <body>
 
-<h1>Dettaglio Libro</h1>
+<h1>Dettaglio libro</h1>
 
-<div>
-    <img th:src="${book.urlImage}" width="120" height="180"/>
+<div th:if="${book}">
+
+    <div>
+        <img th:if="${book.urlImage}"
+             th:src="${book.urlImage}"
+             alt="copertina"
+             width="120"
+             height="180"/>
+    </div>
+
+    <p>
+        <b>Titolo:</b>
+        <span th:text="${book.title}"></span>
+    </p>
+
+    <p>
+        <b>Anno:</b>
+        <span th:text="${book.year}"></span>
+    </p>
+
+    <p th:if="${book.author}">
+        <b>Autore:</b>
+        <span th:text="${book.author.name + ' ' + book.author.surname}"></span>
+    </p>
+
+    <hr>
+
+    <h2>Recensioni</h2>
+
+    <div th:if="${book.reviews == null or book.reviews.isEmpty()}">
+        <p>Nessuna recensione presente.</p>
+    </div>
+
+    <ul th:if="${book.reviews != null and !book.reviews.isEmpty()}">
+        <li th:each="review : ${book.reviews}">
+            <p th:text="${review.text}"></p>
+            <small th:if="${review.creationDate}"
+                   th:text="${review.creationDate}">
+            </small>
+        </li>
+    </ul>
+
+    <p>
+        <a th:href="@{'/books/' + ${book.id} + '/reviews/new'}">
+            Scrivi recensione
+        </a>
+    </p>
+
+    <hr>
+
+    <p>
+        <a href="/books">Torna alla lista libri</a>
+    </p>
+
 </div>
 
-<p><b>Titolo:</b> <span th:text="${book.title}"></span></p>
-
-<p><b>Anno:</b> <span th:text="${book.year}"></span></p>
-
-<br>
-
-<a th:href="@{'/books/' + ${book.id} + '/reviews/new'}">
-    Scrivi recensione
-</a>
-
-<br>
-
-<a href="/books">⬅ Torna alla lista</a>
+<div th:unless="${book}">
+    <p>Libro non trovato.</p>
+    <a href="/books">Torna alla lista libri</a>
+</div>
 
 </body>
 </html>
