@@ -28,7 +28,7 @@ public class Review {
 	@Column(nullable = false)
 	private LocalDate creationDate;
 	@ManyToOne
-	@JoinColumn(name = "book_id")
+	@JoinColumn(name = "book_id", nullable = false)
 	private Book book;
 	@ManyToOne
 	@JoinColumn(name = "user_id")
