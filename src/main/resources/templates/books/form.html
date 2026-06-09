@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Form libro</title>
+</head>
+<body>
+
+<h1>Libro</h1>
+
+<div th:if="${errorMessage}">
+    <p style="color: red;" th:text="${errorMessage}"></p>
+</div>
+
+<form th:action="@{/books}" th:object="${book}" method="post">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <div>
+        <label>Titolo:</label>
+        <input type="text" th:field="*{title}" />
+    </div>
+
+    <div>
+        <label>Anno:</label>
+        <input type="number" th:field="*{year}" />
+    </div>
+
+    <div>
+        <label>URL immagine:</label>
+        <input type="text" th:field="*{urlImage}" />
+    </div>
+
+    <div>
+        <button type="submit">Salva</button>
+    </div>
+
+</form>
+
+<br>
+
+<a href="/books">Torna alla lista libri</a>
+
+</body>
+</html>
