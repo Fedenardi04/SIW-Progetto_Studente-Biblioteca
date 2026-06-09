@@ -32,8 +32,7 @@ public class ReviewService {
     @Transactional
     public Review saveReview(Long bookId, Review review) {
 
-        Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new RuntimeException("Book not found"));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
 
         review.setBook(book);
         review.setCreationDate(LocalDate.now());
