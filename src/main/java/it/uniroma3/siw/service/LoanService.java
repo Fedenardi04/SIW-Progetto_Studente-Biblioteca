@@ -41,6 +41,10 @@ public class LoanService {
     public List<Loan> findReturnedLoans() {
         return loanRepository.findByReturnedTrue();
     }
+    
+    public boolean isBookCurrentlyLoaned(Long bookId) {
+        return loanRepository.existsByBookIdAndReturnedFalse(bookId);
+    }
 
      @Transactional
     public Loan saveLoan(Long bookId, Loan loan) {

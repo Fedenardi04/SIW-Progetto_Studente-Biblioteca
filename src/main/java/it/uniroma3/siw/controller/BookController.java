@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.service.AuthorService;
 import it.uniroma3.siw.service.BookService;
+import it.uniroma3.siw.service.LoanService;
 
 @Controller 
 public class BookController {
@@ -20,10 +21,12 @@ public class BookController {
 
 	private BookService bookService;
 	private AuthorService authorService;
-	
-	public BookController(BookService bookService, AuthorService authorService) {
-		this.bookService = bookService;
-		this.authorService = authorService;
+	private LoanService loanService;
+
+	public BookController(BookService bookService, AuthorService authorService, LoanService loanService) {
+	    this.bookService = bookService;
+	    this.authorService = authorService;
+	    this.loanService = loanService;
 	}
 
 	
@@ -43,6 +46,7 @@ public class BookController {
 	    }
 
 	    model.addAttribute("book", optional.get());
+	    model.addAttribute("bookAlreadyLoaned", loanService.isBookCurrentlyLoaned(id));
 	    return "books/show";
 	}
 	

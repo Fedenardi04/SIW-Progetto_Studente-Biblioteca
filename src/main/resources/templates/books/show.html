@@ -35,12 +35,21 @@
     <hr>
 	
 	<h2>Prestito</h2>
+	
+	<div th:if="${bookAlreadyLoaned}">
+	    <p style="color: red;">
+	        Libro già in prestito
+	    </p>
+	</div>
+
+	<div th:unless="${bookAlreadyLoaned}">
 
 	<p>
-	    <a th:href="@{'/books/' + ${book.id} + '/loans/new'}">
+	    	<a th:href="@{'/books/' + ${book.id} + '/loans/new'}">
 	        Prendi in prestito
-	    </a>
-	</p>
+	    	</a>
+		</p>
+	</div>
 
 	<hr>
 
