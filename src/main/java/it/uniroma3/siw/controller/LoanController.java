@@ -26,11 +26,6 @@ public class LoanController {
         return "loans/list";
     }
 
-    @GetMapping("/loans/active")
-    public String activeLoans(Model model) {
-        model.addAttribute("loans", loanService.findActiveLoans());
-        return "loans/list";
-    }
 
     @GetMapping("/books/{bookId}/loans/new")
     public String createForm(@PathVariable Long bookId, Model model) {
@@ -57,7 +52,7 @@ public class LoanController {
         }
     }
 
-    @GetMapping("/loans/return/{id}")
+    @PostMapping("/loans/{id}/return")
     public String markAsReturned(@PathVariable Long id) {
         loanService.markAsReturned(id);
         return "redirect:/loans";
