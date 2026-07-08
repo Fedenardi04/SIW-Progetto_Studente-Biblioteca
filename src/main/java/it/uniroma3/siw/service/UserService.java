@@ -25,23 +25,4 @@ public class UserService {
     public Optional<User> findUserById(Long id) {
         return userRepository.findById(id);
     }
-
-    @Transactional
-    public User saveUser(User user) {
-
-        boolean duplicate = user.getId() == null
-                ? userRepository.existsByEmail(user.getEmail())
-                : userRepository.existsByEmailAndIdNot(user.getEmail(), user.getId());
-
-        if (duplicate) {
-            throw new RuntimeException("Email already registered");
-        }
-
-        return userRepository.save(user);
-    }
-
-    @Transactional
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
-    }
 }
