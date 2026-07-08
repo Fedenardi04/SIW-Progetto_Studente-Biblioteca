@@ -1,16 +1,3 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Form libro</title>
-</head>
-<body>
-
-<h1>Libro</h1>
-
-<div th:if="${errorMessage}">
-    <p style="color: red;" th:text="${errorMessage}"></p>
-</div>
-
 <form th:action="@{/books}" th:object="${book}" method="post">
 
     <input type="hidden" th:field="*{id}" />
@@ -31,14 +18,18 @@
     </div>
 
     <div>
+        <label>Autore:</label>
+        <select th:field="*{author}">
+            <option value="">-- Seleziona autore --</option>
+            <option th:each="author : ${authors}"
+                    th:value="${author.id}"
+                    th:text="${author.name + ' ' + author.surname}">
+            </option>
+        </select>
+    </div>
+
+    <div>
         <button type="submit">Salva</button>
     </div>
 
 </form>
-
-<br>
-
-<a href="/books">Torna alla lista libri</a>
-
-</body>
-</html>

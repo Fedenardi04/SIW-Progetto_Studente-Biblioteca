@@ -2,6 +2,7 @@ package it.uniroma3.siw.controller;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,17 +12,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import it.siw.uniroma3.it.exception.DuplicateBookException;
 import it.uniroma3.siw.model.Book;
+import it.uniroma3.siw.service.AuthorService;
 import it.uniroma3.siw.service.BookService;
 
 @Controller 
 public class BookController {
 
+	@Autowired
 	private BookService bookService;
 	
+	@Autowired
+	private AuthorService authorService;
 	
-	public BookController(BookService bookService) {
-		this.bookService = bookService;
-	}
+	
+
 	
 	@GetMapping("/books")
 	public String list(Model model) {
@@ -46,7 +50,7 @@ public class BookController {
 	public String createForm(Model model) {
 
 	    model.addAttribute("book", new Book());
-//	    model.addAttribute("authors", authorService.findAll());
+    model.addAttribute("authors", authorService.findAllAuthors());
 
 	    return "books/form";
 	}
@@ -54,25 +58,20 @@ public class BookController {
 	@PostMapping("/books")
     public String saveBook(@ModelAttribute("book") Book book,
                            Model model) {
-        try {
-            bookService.saveBook(book);
-            return "redirect:/books";
-        } catch (DuplicateBookException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "books/form";
-        }
+		bookService.saveBook(book);
+        return "redirect:/books";
     }
 
     @GetMapping("/books/edit/{id}")
     public String editForm(@PathVariable Long id, Model model) {
-        Book book = bookService.findBookById(id)
-                .orElse(null);
+        Book book = bookService.findBookById(id).orElse(null);
 
         if (book == null) {
             return "redirect:/books";
         }
 
         model.addAttribute("book", book);
+        model.addAttribute("authors", authorService.findAllAuthors());
         return "books/form";
     }
 
