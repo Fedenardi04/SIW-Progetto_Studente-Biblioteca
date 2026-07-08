@@ -37,12 +37,15 @@ public class LoanService {
     public List<Loan> findActiveLoans() {
         return loanRepository.findByReturnedFalse();
     }
+    
+    public List<Loan> findReturnedLoans() {
+        return loanRepository.findByReturnedTrue();
+    }
 
      @Transactional
     public Loan saveLoan(Long bookId, Loan loan) {
 
-        Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new RuntimeException("Book not found"));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
 
         if (loanRepository.existsByBookIdAndReturnedFalse(bookId)) {
             throw new RuntimeException("This book is already on loan");
@@ -57,8 +60,7 @@ public class LoanService {
 
     @Transactional
     public void markAsReturned(Long id) {
-        Loan loan = loanRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Loan not found"));
+        Loan loan = loanRepository.findById(id).orElseThrow(() -> new RuntimeException("Loan not found"));
 
         loan.setReturned(true);
         loanRepository.save(loan);

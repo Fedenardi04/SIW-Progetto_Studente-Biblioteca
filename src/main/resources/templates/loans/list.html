@@ -5,59 +5,65 @@
 </head>
 <body>
 
-<h1>Lista Prestiti</h1>
+<h1>Prestiti</h1>
 
-<a href="/">Home</a> |
-<a href="/loans/active">Mostra solo prestiti attivi</a> |
-<a href="/loans">Mostra tutti</a>
+<a href="/">Home</a>
 
-<table border="1">
+<hr>
+
+<h2>Prestiti attivi</h2>
+
+<div th:if="${activeLoans == null or activeLoans.isEmpty()}">
+    <p>Nessun prestito attivo.</p>
+</div>
+
+<table border="1" th:if="${activeLoans != null and !activeLoans.isEmpty()}">
     <thead>
     <tr>
         <th>Libro</th>
-        <th>Utente</th>
         <th>Data inizio</th>
-        <th>Data fine</th>
-        <th>Stato</th>
-        <th>Azioni</th>
+        <th>Data scadenza</th>
+        <th>Azione</th>
     </tr>
     </thead>
 
     <tbody>
-    <tr th:each="loan : ${loans}">
-        <td>
-            <a th:href="@{'/books/' + ${loan.book.id}}"
-               th:text="${loan.book.title}">
-            </a>
-        </td>
-
-        <td th:if="${loan.user != null}">
-            <a th:href="@{'/users/' + ${loan.user.id}}"
-               th:text="${loan.user.name + ' ' + loan.user.surname}">
-            </a>
-        </td>
-
-        <td th:unless="${loan.user != null}">
-            Nessun utente
-        </td>
-
+    <tr th:each="loan : ${activeLoans}">
+        <td th:text="${loan.book.title}"></td>
         <td th:text="${loan.startDate}"></td>
         <td th:text="${loan.endDate}"></td>
-
-        <td th:text="${loan.returned ? 'Restituito' : 'Attivo'}"></td>
-
         <td>
-            <a th:if="${!loan.returned}"
-               th:href="@{'/loans/return/' + ${loan.id}}">
-                Segna come restituito
-            </a>
-
-            <span th:if="${!loan.returned}"> | </span>
-
-            <a th:href="@{'/loans/delete/' + ${loan.id}}">
-                Elimina
-            </a>
+            <form th:action="@{'/loans/' + ${loan.id} + '/return'}"
+                  method="post">
+                <button type="submit">Segna restituito</button>
+            </form>
         </td>
+    </tr>
+    </tbody>
+</table>
+
+<hr>
+
+<h2>Storico prestiti</h2>
+
+<div th:if="${returnedLoans == null or returnedLoans.isEmpty()}">
+    <p>Nessun prestito restituito.</p>
+</div>
+
+<table border="1" th:if="${returnedLoans != null and !returnedLoans.isEmpty()}">
+    <thead>
+    <tr>
+        <th>Libro</th>
+        <th>Data inizio</th>
+        <th>Data scadenza</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="loan : ${returnedLoans}">
+        <td th:text="${loan.book.title}"></td>
+        <td th:text="${loan.startDate}"></td>
+        <td th:text="${loan.endDate}"></td>
     </tr>
     </tbody>
 </table>

@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import it.siw.uniroma3.it.exception.DuplicateAuthorException;
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.repository.AuthorRepository;
 import jakarta.transaction.Transactional;
@@ -32,19 +31,11 @@ public class AuthorService {
     }
 
     @Transactional
-    public Author saveAuthor(Author author) throws DuplicateAuthorException {
-
-        if (authorRepository.existsByNameAndSurnameAndBirthDate(
-                author.getName(),
-                author.getSurname(),
-                author.getBirthDate())) {
-
-            throw new DuplicateAuthorException(
-                    author.getName(),
-                    author.getSurname());
-        }
+    public Author saveAuthor(Author author) {
 
         return authorRepository.save(author);
+
+
     }
 
     @Transactional

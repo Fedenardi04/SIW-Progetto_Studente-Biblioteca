@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import it.siw.uniroma3.it.exception.DuplicateAuthorException;
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.service.AuthorService;
 
@@ -52,16 +51,8 @@ public class AuthorController {
 	public String save(@ModelAttribute Author author,
 	                         Model model) {
 
-	    try {
-	        authorService.saveAuthor(author);
-	        return "redirect:/authors";
-	    }
-	    catch(DuplicateAuthorException e) {
-	        model.addAttribute("author", author);
-	        model.addAttribute("errorMessage", e.getMessage());
-
-	        return "authors/form";
-	    }
+		authorService.saveAuthor(author);
+        return "redirect:/authors";
 	}
 	
 	@GetMapping("/authors/delete/{id}")

@@ -5,11 +5,7 @@
 </head>
 <body>
 
-<h1>Nuovo Prestito</h1>
-
-<div th:if="${errorMessage}">
-    <p style="color: red;" th:text="${errorMessage}"></p>
-</div>
+<h1>Nuovo prestito</h1>
 
 <p>
     Libro:
@@ -21,13 +17,13 @@
       method="post">
 
     <div>
-        <label>Data fine prestito:</label>
+        <label>Data di scadenza:</label>
         <input type="date" th:field="*{endDate}" />
     </div>
 
     <br>
 
-    <button type="submit">Salva prestito</button>
+    <button type="submit">Conferma prestito</button>
 
 </form>
 

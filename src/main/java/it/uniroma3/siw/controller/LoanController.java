@@ -21,7 +21,8 @@ public class LoanController {
 
     @GetMapping("/loans")
     public String list(Model model) {
-        model.addAttribute("loans", loanService.findAllLoans());
+    	model.addAttribute("activeLoans", loanService.findActiveLoans());
+        model.addAttribute("returnedLoans", loanService.findReturnedLoans());
         return "loans/list";
     }
 

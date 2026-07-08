@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import it.siw.uniroma3.it.exception.DuplicateBookException;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.repository.BookRepository;
 import jakarta.transaction.Transactional;
@@ -30,13 +29,8 @@ public class BookService {
 	
 	@Transactional
 	public Book saveBook(Book book) {
-		boolean duplicate = book.getId() == null
-	            ? bookRepository.existsByTitleAndYear(book.getTitle(), book.getYear())
-	            : bookRepository.existsByTitleAndYearAndIdNot(book.getTitle(), book.getYear(), book.getId());
-	        if (duplicate) {
-	            throw new DuplicateBookException(book.getTitle(), book.getYear());
-	        }
-	        return bookRepository.save(book);   
+	
+        return bookRepository.save(book);   
 		    
 	}
 	
