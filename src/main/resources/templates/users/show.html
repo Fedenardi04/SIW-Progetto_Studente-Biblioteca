@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dettaglio Utente</title>
+</head>
+<body>
+
+<h1>Dettaglio Utente</h1>
+
+<p><b>Nome:</b> <span th:text="${user.name}"></span></p>
+<p><b>Cognome:</b> <span th:text="${user.surname}"></span></p>
+<p><b>Email:</b> <span th:text="${user.email}"></span></p>
+
+<h2>Prestiti</h2>
+
+<div th:if="${user.loans == null or user.loans.isEmpty()}">
+    <p>Nessun prestito associato a questo utente.</p>
+</div>
+
+<ul th:if="${user.loans != null and !user.loans.isEmpty()}">
+    <li th:each="loan : ${user.loans}">
+        <span th:text="${loan.book.title}"></span>
+        -
+        <span th:text="${loan.startDate}"></span>
+        /
+        <span th:text="${loan.endDate}"></span>
+        -
+        <span th:text="${loan.returned ? 'Restituito' : 'Attivo'}"></span>
+    </li>
+</ul>
+
+<br>
+
+<a href="/users">Torna alla lista utenti</a>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nuovo prestito</title>
+</head>
+<body>
+
+<h1>Nuovo Prestito</h1>
+
+<div th:if="${errorMessage}">
+    <p style="color: red;" th:text="${errorMessage}"></p>
+</div>
+
+<p>
+    Libro:
+    <b th:text="${book.title}"></b>
+</p>
+
+<form th:action="@{'/books/' + ${book.id} + '/loans'}"
+      th:object="${loan}"
+      method="post">
+
+    <div>
+        <label>Data fine prestito:</label>
+        <input type="date" th:field="*{endDate}" />
+    </div>
+
+    <br>
+
+    <button type="submit">Salva prestito</button>
+
+</form>
+
+<br>
+
+<a th:href="@{'/books/' + ${book.id}}">
+    Torna al libro
+</a>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Prestiti</title>
+</head>
+<body>
+
+<h1>Lista Prestiti</h1>
+
+<a href="/">Home</a> |
+<a href="/loans/active">Mostra solo prestiti attivi</a> |
+<a href="/loans">Mostra tutti</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Libro</th>
+        <th>Utente</th>
+        <th>Data inizio</th>
+        <th>Data fine</th>
+        <th>Stato</th>
+        <th>Azioni</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="loan : ${loans}">
+        <td>
+            <a th:href="@{'/books/' + ${loan.book.id}}"
+               th:text="${loan.book.title}">
+            </a>
+        </td>
+
+        <td th:if="${loan.user != null}">
+            <a th:href="@{'/users/' + ${loan.user.id}}"
+               th:text="${loan.user.name + ' ' + loan.user.surname}">
+            </a>
+        </td>
+
+        <td th:unless="${loan.user != null}">
+            Nessun utente
+        </td>
+
+        <td th:text="${loan.startDate}"></td>
+        <td th:text="${loan.endDate}"></td>
+
+        <td th:text="${loan.returned ? 'Restituito' : 'Attivo'}"></td>
+
+        <td>
+            <a th:if="${!loan.returned}"
+               th:href="@{'/loans/return/' + ${loan.id}}">
+                Segna come restituito
+            </a>
+
+            <span th:if="${!loan.returned}"> | </span>
+
+            <a th:href="@{'/loans/delete/' + ${loan.id}}">
+                Elimina
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

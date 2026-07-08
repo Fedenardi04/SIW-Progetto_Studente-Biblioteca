@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Form utente</title>
+</head>
+<body>
+
+<h1>Utente</h1>
+
+<div th:if="${errorMessage}">
+    <p style="color: red;" th:text="${errorMessage}"></p>
+</div>
+
+<form th:action="@{/users}" th:object="${user}" method="post">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <div>
+        <label>Nome:</label>
+        <input type="text" th:field="*{name}" />
+    </div>
+
+    <div>
+        <label>Cognome:</label>
+        <input type="text" th:field="*{surname}" />
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" />
+    </div>
+
+    <div>
+        <button type="submit">Salva</button>
+    </div>
+
+</form>
+
+<br>
+
+<a href="/users">Torna alla lista utenti</a>
+
+</body>
+</html>
