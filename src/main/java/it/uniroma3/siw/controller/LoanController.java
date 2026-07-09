@@ -58,10 +58,11 @@ public class LoanController {
     @PostMapping("/books/{bookId}/loans")
     public String save(@PathVariable Long bookId,
                        @ModelAttribute Loan loan,
+                       Principal principal,
                        Model model) {
 
         try {
-            loanService.saveLoan(bookId, loan);
+            loanService.saveLoan(bookId, loan, principal.getName());
             return "redirect:/books/" + bookId;
         } catch (RuntimeException e) {
             model.addAttribute("book", bookService.findBookById(bookId).get());

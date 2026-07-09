@@ -19,10 +19,20 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/books", "/books/**", "/authors", "/authors/**", "/login", "/register").permitAll()
-                .requestMatchers("/loans/my").authenticated()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
+        	    .requestMatchers(
+        	            "/books/*/loans/new",
+        	            "/books/*/loans",
+        	            "/books/*/reviews/new",
+        	            "/books/*/reviews",
+        	            "/loans/my"
+        	        ).authenticated()
+
+        	        .requestMatchers("/", "/books", "/books/**", "/authors", "/authors/**", "/login", "/register").permitAll()
+
+        	        .requestMatchers("/admin/**").hasRole("ADMIN")
+
+        	        .anyRequest().authenticated()
+        	    
             )
             .formLogin(login -> login
                 .loginPage("/login")

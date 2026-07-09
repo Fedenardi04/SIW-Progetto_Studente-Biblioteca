@@ -1,5 +1,7 @@
 package it.uniroma3.siw.controller;
 
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +34,11 @@ public class ReviewController {
     }
 
     @PostMapping("/books/{bookId}/reviews")
-    public String save(@PathVariable Long bookId, @ModelAttribute Review review) {
+    public String save(@PathVariable Long bookId,
+                       @ModelAttribute Review review,
+                       Principal principal) {
 
-        reviewService.saveReview(bookId, review);
+        reviewService.saveReview(bookId, review, principal.getName());
         return "redirect:/books/" + bookId;
     }
 }
