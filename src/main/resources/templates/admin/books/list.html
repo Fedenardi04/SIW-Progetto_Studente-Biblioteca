@@ -1,6 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Autori</title>
+</head>
+<body>
+	
+	<div style="text-align: right;">
+	    <form th:action="@{/logout}" method="post">
+	        <button type="submit">Logout</button>
+	    </form>
+	</div>
+
 <h1>Libri</h1>
 
-<a href="/">Home</a> |
+<div style="text-align: right;">
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+<a href="/admin">Pagina amministrativa</a> |
 <a href="/books/new">➕ Aggiungi libro</a>
 
 <table border="1">

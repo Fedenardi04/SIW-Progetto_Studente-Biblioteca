@@ -5,3 +5,10 @@ insert into author (id, name, surname, birth_date) values (2, 'George', 'Orwell'
 insert into book (id, title, year, url_image, author_id) values (1, 'Dune', 1965, '/images/dune.png', 1);
 
 insert into book (id, title, year, url_image, author_id) values (2, '1984', 1949, '/images/1984.png', 2);
+
+
+
+
+-- Utente
+
+INSERT INTO users(id, name, surname, email) VALUES (nextval('users_seq'),'Federico','Nardi','federico@email.it');
