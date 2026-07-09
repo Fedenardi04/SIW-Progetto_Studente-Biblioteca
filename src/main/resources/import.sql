@@ -12,3 +12,5 @@ insert into book (id, title, year, url_image, author_id) values (2, '1984', 1949
 -- Utente
 
 INSERT INTO users(id, name, surname, email) VALUES (nextval('users_seq'),'Federico','Nardi','federico@email.it');
+
+INSERT INTO credentials(id, username, password, role, user_id) VALUES (nextval('credentials_seq'),'federico','$2a$12$CF6RM/sA9x4u3GQ7DlMhNeSd54HeIL0VT3Y0BTg070yqx4gQTIXS.','ADMIN',currval('users_seq'));

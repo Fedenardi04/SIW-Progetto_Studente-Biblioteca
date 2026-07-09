@@ -26,11 +26,11 @@ public class LoanController {
         this.credentialsService = credentialsService;
     }
 
-    @GetMapping("/loans")
+    @GetMapping("/admin/loans")
     public String list(Model model) {
     	model.addAttribute("activeLoans", loanService.findActiveLoans());
         model.addAttribute("returnedLoans", loanService.findReturnedLoans());
-        return "loans/list";
+        return "admin/loans/list";
     }
 
 
