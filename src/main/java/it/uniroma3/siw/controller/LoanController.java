@@ -1,11 +1,16 @@
 package it.uniroma3.siw.controller;
 
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Loan;
+import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.service.BookService;
+import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.LoanService;
 
 @Controller
@@ -13,10 +18,12 @@ public class LoanController {
 
     private LoanService loanService;
     private BookService bookService;
+	private CredentialsService credentialsService;
 
-    public LoanController(LoanService loanService, BookService bookService) {
+    public LoanController(LoanService loanService, BookService bookService, CredentialsService credentialsService) {
         this.loanService = loanService;
         this.bookService = bookService;
+        this.credentialsService = credentialsService;
     }
 
     @GetMapping("/loans")
@@ -34,6 +41,18 @@ public class LoanController {
         model.addAttribute("loan", new Loan());
 
         return "loans/form";
+    }
+    
+    @GetMapping("/loans/my")
+    public String myLoans(Model model, Principal principal) {
+
+        Credentials credentials = credentialsService.findByUsername(principal.getName()).get();
+        User user = credentials.getUser();
+
+        model.addAttribute("activeLoans", loanService.findActiveLoansByUser(user));
+        model.addAttribute("returnedLoans", loanService.findReturnedLoansByUser(user));
+
+        return "loans/my";
     }
 
     @PostMapping("/books/{bookId}/loans")

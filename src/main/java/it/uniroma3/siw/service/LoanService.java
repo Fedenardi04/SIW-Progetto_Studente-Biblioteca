@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.Loan;
+import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.repository.BookRepository;
 import it.uniroma3.siw.repository.LoanRepository;
 
@@ -40,6 +41,14 @@ public class LoanService {
     
     public List<Loan> findReturnedLoans() {
         return loanRepository.findByReturnedTrue();
+    }
+    
+    public List<Loan> findActiveLoansByUser(User user) {
+        return loanRepository.findByUserIdAndReturnedFalse(user.getId());
+    }
+
+    public List<Loan> findReturnedLoansByUser(User user) {
+        return loanRepository.findByUserIdAndReturnedTrue(user.getId());
     }
     
     public boolean isBookCurrentlyLoaned(Long bookId) {

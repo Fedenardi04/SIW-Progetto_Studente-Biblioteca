@@ -40,14 +40,14 @@ public class AuthorController {
 	    return "authors/show";
 	}
 	
-	@GetMapping("/authors/new")
+	@GetMapping("/admin/authors/new")
 	public String createForm(Model model) {
 		
 		model.addAttribute("author", new Author());
 	    return "authors/form";
 	}
 	
-	@PostMapping("/authors")
+	@PostMapping("/admin/authors")
 	public String save(@ModelAttribute Author author,
 	                         Model model) {
 

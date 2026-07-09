@@ -7,7 +7,8 @@
 
 <h1>Lista Autori</h1>
 
-<a href="/">Home</a> 
+<a href="/admin">Pagina amministrativa</a> |
+<a href="/authors/new">Aggiungi autore</a>
 
 <table border="1">
     <thead>
@@ -26,7 +27,8 @@
         <td th:text="${author.birthDate}"></td>
         <td>
             <a th:href="@{'/authors/' + ${author.id}}">Dettagli</a>
-            
+            |
+            <a th:href="@{'/authors/delete/' + ${author.id}}">Elimina</a>
         </td>
     </tr>
     </tbody>

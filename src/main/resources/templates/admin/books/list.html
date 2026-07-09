@@ -1,6 +1,7 @@
 <h1>Libri</h1>
 
-<a href="/">Home</a> 
+<a href="/">Home</a> |
+<a href="/books/new">➕ Aggiungi libro</a>
 
 <table border="1">
     <thead>
@@ -37,6 +38,10 @@
 
         <td>
             <a th:href="@{'/books/' + ${book.id}}">Dettagli</a>
+            |
+            <a th:href="@{'/books/edit/' + ${book.id}}">Modifica</a>
+            |
+            <a th:href="@{'/books/delete/' + ${book.id}}">Elimina</a>
         </td>
     </tr>
     </tbody>

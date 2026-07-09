@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>I tuoi prestiti</title>
+</head>
+<body>
+
+<h1>I tuoi prestiti</h1>
+
+<a href="/">Torna alla Home</a>
+
+<hr>
+
+<h2>Prestiti attivi</h2>
+
+<div th:if="${activeLoans == null || activeLoans.isEmpty()}">
+    <p>Non hai prestiti attivi.</p>
+</div>
+
+<table border="1"
+       th:if="${activeLoans != null && !activeLoans.isEmpty()}">
+
+    <thead>
+        <tr>
+            <th>Copertina</th>
+            <th>Titolo</th>
+            <th>Autore</th>
+            <th>Data inizio</th>
+            <th>Data scadenza</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr th:each="loan : ${activeLoans}">
+
+            <td>
+                <img th:if="${loan.book.urlImage}"
+                     th:src="${loan.book.urlImage}"
+                     width="60"
+                     height="90"/>
+            </td>
+
+            <td>
+                <a th:href="@{'/books/' + ${loan.book.id}}"
+                   th:text="${loan.book.title}">
+                </a>
+            </td>
+
+            <td th:text="${loan.book.author.name + ' ' + loan.book.author.surname}">
+            </td>
+
+            <td th:text="${loan.startDate}"></td>
+
+            <td th:text="${loan.endDate}"></td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+<hr>
+
+<h2>Prestiti restituiti</h2>
+
+<div th:if="${returnedLoans == null || returnedLoans.isEmpty()}">
+    <p>Non hai ancora restituito alcun libro.</p>
+</div>
+
+<table border="1"
+       th:if="${returnedLoans != null && !returnedLoans.isEmpty()}">
+
+    <thead>
+        <tr>
+            <th>Copertina</th>
+            <th>Titolo</th>
+            <th>Autore</th>
+            <th>Data inizio</th>
+            <th>Data scadenza</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr th:each="loan : ${returnedLoans}">
+
+            <td>
+                <img th:if="${loan.book.urlImage}"
+                     th:src="${loan.book.urlImage}"
+                     width="60"
+                     height="90"/>
+            </td>
+
+            <td>
+                <a th:href="@{'/books/' + ${loan.book.id}}"
+                   th:text="${loan.book.title}">
+                </a>
+            </td>
+
+            <td th:text="${loan.book.author.name + ' ' + loan.book.author.surname}">
+            </td>
+
+            <td th:text="${loan.startDate}"></td>
+
+            <td th:text="${loan.endDate}"></td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+</body>
+</html>
