@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Dettaglio libro</title>
+	
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 <body>
 
@@ -53,26 +56,14 @@
 
 	<hr>
 
-    <h2>Recensioni</h2>
+	<h2>Recensioni</h2>
 
-    <div th:if="${book.reviews == null or book.reviews.isEmpty()}">
-        <p>Nessuna recensione presente.</p>
-    </div>
-
-    <ul th:if="${book.reviews != null and !book.reviews.isEmpty()}">
-        <li th:each="review : ${book.reviews}">
-            <p th:text="${review.text}"></p>
-            <small th:if="${review.creationDate}"
-                   th:text="${review.creationDate}">
-            </small>
-        </li>
-    </ul>
-
-    <p>
-        <a th:href="@{'/books/' + ${book.id} + '/reviews/new'}">
-            Scrivi recensione
-        </a>
-    </p>
+	<div id="reviews-root"
+	     th:attr="
+	        data-book-id=${book.id},
+	        data-can-review=${#authorization.expression('isAuthenticated()')},
+			data-show-login-message=true">
+	</div>
 
     <hr>
 
@@ -88,4 +79,13 @@
 </div>
 
 </body>
+
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel"
+        th:src="@{/js/reviews.jsx}">
+</script>
+
 </html>
