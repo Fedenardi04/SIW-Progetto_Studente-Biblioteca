@@ -1,37 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Nuovo prestito</title>
 </head>
 <body>
 
 <h1>Nuovo prestito</h1>
 
-<p>
+<div th:if="${errorMessage}">
+    <p th:text="${errorMessage}" style="color: red;"></p>
+</div>
+
+<p th:if="${book != null}">
     Libro:
-    <b th:text="${book.title}"></b>
+    <strong th:text="${book.title}"></strong>
 </p>
 
-<form th:action="@{'/books/' + ${book.id} + '/loans'}"
+<form th:if="${book != null}"
+      th:action="@{/books/{bookId}/loans(bookId=${book.id})}"
       th:object="${loan}"
       method="post">
 
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="error : ${#fields.globalErrors()}"
+           th:text="${error}"
+           style="color: red;">
+        </p>
+    </div>
+
     <div>
-        <label>Data di scadenza:</label>
-        <input type="date" th:field="*{endDate}" />
+        <label for="endDate">Data di scadenza:</label>
+
+        <input id="endDate"
+               type="date"
+               th:field="*{endDate}"/>
+
+        <p th:if="${#fields.hasErrors('endDate')}"
+           th:errors="*{endDate}"
+           style="color: red;">
+        </p>
     </div>
 
     <br>
 
-    <button type="submit">Conferma prestito</button>
+    <button type="submit">
+        Conferma prestito
+    </button>
 
 </form>
 
-<br>
-
-<a th:href="@{'/books/' + ${book.id}}">
-    Torna al libro
-</a>
+<p>
+    <a th:if="${book != null}"
+       th:href="@{/books/{id}(id=${book.id})}">
+        Torna al libro
+    </a>
+</p>
 
 </body>
 </html>

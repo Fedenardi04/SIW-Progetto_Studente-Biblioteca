@@ -10,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -19,25 +21,36 @@ public class Loan {
 	@GeneratedValue(strategy = GenerationType.AUTO)	
 	private Long id;
 	
-	@NotNull
-	@Column(nullable = false)
-	
-	private LocalDate startDate;
-	
-	@NotNull
-	@Column(nullable = false)
-	private LocalDate endDate;
-	
-	@Column(nullable = false)
-	private boolean returned;
-	
-	@ManyToOne
-	@JoinColumn(name = "book_id")
-	private Book book;
-	
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+	@NotNull(message = "La data di inizio è obbligatoria")
+    @Column(nullable = false)
+    private LocalDate startDate;
+
+    @NotNull(message = "Data di scadenza obbligatoria")
+    @Future(message = "La data di scadenza deve essere successiva a oggi")
+    @Column(nullable = false)
+    private LocalDate endDate;
+
+    @Column(nullable = false)
+    private boolean returned;
+
+    @NotNull(message = "Il libro è obbligatorio")
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
+
+    @NotNull(message = "L'utente è obbligatorio")
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @AssertTrue(message = "La data di scadenza deve essere successiva alla data di inizio")
+    public boolean isEndDateValid() {
+        if (startDate == null || endDate == null) {
+            return true;
+        }
+
+        return endDate.isAfter(startDate);
+    }
 	
 	public Long getId() {
 		return id;

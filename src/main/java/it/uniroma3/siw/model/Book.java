@@ -12,8 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -34,7 +32,7 @@ public class Book {
 	
 	@NotNull(message = "Anno obbligatorio")
 	@Min(value = 1450, message = "Anno precedente al 1450 non ammesso")
-	@Max(value = 1450, message = "Anno successivo al 2026 non ammesso")
+	@Max(value = 2026, message = "Anno successivo al 2026 non ammesso")
 	@Column(nullable = false)
 	private Integer year;
 	

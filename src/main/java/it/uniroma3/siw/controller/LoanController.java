@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import it.uniroma3.siw.model.Credentials;
@@ -12,6 +13,7 @@ import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.service.BookService;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.LoanService;
+import jakarta.validation.Valid;
 
 @Controller
 public class LoanController {
@@ -57,17 +59,27 @@ public class LoanController {
 
     @PostMapping("/books/{bookId}/loans")
     public String save(@PathVariable Long bookId,
-                       @ModelAttribute Loan loan,
+                       @Valid @ModelAttribute("loan") Loan loan,
+                       BindingResult bindingResult,
                        Principal principal,
                        Model model) {
 
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("book", bookService.findBookById(bookId).orElse(null));
+
+            return "loans/form";
+        }
+
         try {
             loanService.saveLoan(bookId, loan, principal.getName());
+
             return "redirect:/books/" + bookId;
+
         } catch (RuntimeException e) {
-            model.addAttribute("book", bookService.findBookById(bookId).get());
-            model.addAttribute("loan", loan);
-            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("book",bookService.findBookById(bookId).orElse(null));
+
+            model.addAttribute("errorMessage",e.getMessage());
+
             return "loans/form";
         }
     }
