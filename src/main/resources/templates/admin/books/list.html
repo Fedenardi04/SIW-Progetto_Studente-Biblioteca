@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Autori</title>
+    <title>Gestione libri</title>
 </head>
 <body>
-	
-	<div style="text-align: right;">
-	    <form th:action="@{/logout}" method="post">
-	        <button type="submit">Logout</button>
-	    </form>
-	</div>
 
-<h1>Libri</h1>
-
-<div style="text-align: right;">
+<div style="text-align: right; margin-bottom: 20px;">
     <form th:action="@{/logout}" method="post">
         <button type="submit">Logout</button>
     </form>
 </div>
 
-<a href="/admin">Pagina amministrativa</a> |
-<a href="/books/new">➕ Aggiungi libro</a>
+<h1>Gestione libri</h1>
 
-<table border="1">
+<p>
+    <a th:href="@{/admin}">Pagina amministrativa</a>
+    |
+    <a th:href="@{/admin/books/new}">➕ Aggiungi libro</a>
+</p>
+
+<div th:if="${books == null || books.isEmpty()}">
+    <p>Non ci sono libri presenti.</p>
+</div>
+
+<table border="1"
+       th:if="${books != null && !books.isEmpty()}">
+
     <thead>
     <tr>
         <th>Immagine</th>
@@ -35,33 +38,61 @@
 
     <tbody>
     <tr th:each="book : ${books}">
+
         <td>
-            <img th:if="${book.urlImage}"
+            <img th:if="${book.urlImage != null && !book.urlImage.isEmpty()}"
                  th:src="${book.urlImage}"
-                 alt="cover"
+                 alt="Copertina"
                  width="60"
                  height="90"/>
+
+            <span th:if="${book.urlImage == null || book.urlImage.isEmpty()}">
+                Nessuna immagine
+            </span>
         </td>
 
         <td th:text="${book.title}"></td>
 
         <td>
             <a th:if="${book.author != null}"
-               th:href="@{'/authors/' + ${book.author.id}}"
+               th:href="@{/authors/{id}(id=${book.author.id})}"
                th:text="${book.author.name + ' ' + book.author.surname}">
             </a>
-            <span th:if="${book.author == null}">Nessun autore</span>
+
+            <span th:if="${book.author == null}">
+                Nessun autore
+            </span>
         </td>
 
         <td th:text="${book.year}"></td>
 
         <td>
-            <a th:href="@{'/books/' + ${book.id}}">Dettagli</a>
+            <a th:href="@{/admin/books/{id}(id=${book.id})}">
+                Dettagli
+            </a>
+
             |
-            <a th:href="@{'/books/edit/' + ${book.id}}">Modifica</a>
+
+            <a th:href="@{/admin/books/{id}/edit(id=${book.id})}">
+                Modifica
+            </a>
+
             |
-            <a th:href="@{'/books/delete/' + ${book.id}}">Elimina</a>
+
+            <form th:action="@{/admin/books/{id}/delete(id=${book.id})}"
+                  method="post"
+                  style="display: inline;">
+
+                <button type="submit">
+                    Elimina
+                </button>
+            </form>
         </td>
+
     </tr>
     </tbody>
+
 </table>
+
+</body>
+</html>

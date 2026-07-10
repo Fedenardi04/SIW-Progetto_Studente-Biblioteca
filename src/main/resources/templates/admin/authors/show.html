@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dettaglio autore</title>
+</head>
+<body>
+
+<div style="text-align: right; margin-bottom: 20px;">
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+<h1>Dettaglio autore</h1>
+
+<p>
+    <strong>Nome:</strong>
+    <span th:text="${author.name}"></span>
+</p>
+
+<p>
+    <strong>Cognome:</strong>
+    <span th:text="${author.surname}"></span>
+</p>
+
+<p>
+    <strong>Data di nascita:</strong>
+    <span th:text="${author.birthDate}"></span>
+</p>
+
+<hr>
+
+<h2>Libri scritti</h2>
+
+<div th:if="${author.books == null || author.books.isEmpty()}">
+    <p>Nessun libro associato a questo autore.</p>
+</div>
+
+<ul th:if="${author.books != null && !author.books.isEmpty()}">
+    <li th:each="book : ${author.books}">
+        <a th:href="@{/admin/books/{id}(id=${book.id})}"
+           th:text="${book.title}">
+        </a>
+
+        <span th:text="' (' + ${book.year} + ')'"></span>
+    </li>
+</ul>
+
+<hr>
+
+<p>
+    <a th:href="@{/admin/authors/{id}/edit(id=${author.id})}">
+        Modifica autore
+    </a>
+</p>
+
+<p>
+    <a th:href="@{/admin/authors}">
+        Torna alla gestione autori
+    </a>
+</p>
+
+<p>
+    <a th:href="@{/admin}">
+        Home amministrativa
+    </a>
+</p>
+
+</body>
+</html>

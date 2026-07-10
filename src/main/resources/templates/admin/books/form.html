@@ -1,5 +1,7 @@
-<form th:action="@{/books}" th:object="${book}" method="post">
-
+<form th:action="@{/admin/books}"
+      th:object="${book}"
+      method="post">
+	  
     <input type="hidden" th:field="*{id}" />
 
     <div>
