@@ -21,7 +21,6 @@ public class Loan {
 	@GeneratedValue(strategy = GenerationType.AUTO)	
 	private Long id;
 	
-	@NotNull(message = "La data di inizio è obbligatoria")
     @Column(nullable = false)
     private LocalDate startDate;
 
@@ -33,12 +32,10 @@ public class Loan {
     @Column(nullable = false)
     private boolean returned;
 
-    @NotNull(message = "Il libro è obbligatorio")
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    @NotNull(message = "L'utente è obbligatorio")
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

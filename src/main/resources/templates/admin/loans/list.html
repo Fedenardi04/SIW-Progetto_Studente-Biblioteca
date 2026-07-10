@@ -39,7 +39,7 @@
         <td th:text="${loan.startDate}"></td>
         <td th:text="${loan.endDate}"></td>
         <td>
-            <form th:action="@{'/loans/' + ${loan.id} + '/return'}"
+            <form th:action="@{'/admin/loans/' + ${loan.id} + '/return'}"
                   method="post">
                 <button type="submit">Segna restituito</button>
             </form>

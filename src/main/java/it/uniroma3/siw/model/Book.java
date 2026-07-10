@@ -49,7 +49,7 @@ public class Book {
 	@OneToMany(mappedBy = "book")
 	private List<Loan> loans;
 	
-	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Review> reviews;
 	
 	public Long getId() {
