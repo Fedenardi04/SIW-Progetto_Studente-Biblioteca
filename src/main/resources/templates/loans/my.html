@@ -1,11 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>I tuoi prestiti</title>
 </head>
 <body>
 
 <h1>I tuoi prestiti</h1>
+
+<div style="text-align: right; margin-bottom: 20px;">
+
+    <div sec:authorize="isAnonymous()">
+        <a th:href="@{/register}">Registrati</a>
+        |
+        <a th:href="@{/login}">Login</a>
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+        <span>
+            Utente:
+            <strong sec:authentication="name"></strong>
+        </span>
+
+        <form th:action="@{/logout}"
+              method="post"
+              style="display: inline; margin-left: 10px;">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+
+</div>
 
 <a href="/">Torna alla Home</a>
 

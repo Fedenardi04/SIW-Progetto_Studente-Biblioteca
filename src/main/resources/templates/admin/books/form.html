@@ -1,37 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${book.id == null ? 'Aggiungi libro' : 'Modifica libro'}">
+        Libro
+    </title>
+</head>
+
+<body>
+
+<div style="text-align: right; margin-bottom: 20px;">
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+<h1 th:text="${book.id == null ? 'Aggiungi libro' : 'Modifica libro'}">
+    Libro
+</h1>
+
 <form th:action="@{/admin/books}"
       th:object="${book}"
       method="post">
-	  
-    <input type="hidden" th:field="*{id}" />
 
-    <div>
-        <label>Titolo:</label>
-        <input type="text" th:field="*{title}" />
+    <input type="hidden" th:field="*{id}"/>
+
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="error : ${#fields.globalErrors()}"
+           th:text="${error}"
+           style="color: red;">
+        </p>
     </div>
 
     <div>
-        <label>Anno:</label>
-        <input type="number" th:field="*{year}" />
+        <label for="title">Titolo:</label>
+
+        <input id="title"
+               type="text"
+               th:field="*{title}"/>
+
+        <p th:if="${#fields.hasErrors('title')}"
+           th:errors="*{title}"
+           style="color: red;">
+        </p>
     </div>
 
     <div>
-        <label>URL immagine:</label>
-        <input type="text" th:field="*{urlImage}" />
+        <label for="year">Anno:</label>
+
+        <input id="year"
+               type="number"
+               th:field="*{year}"/>
+
+        <p th:if="${#fields.hasErrors('year')}"
+           th:errors="*{year}"
+           style="color: red;">
+        </p>
     </div>
 
     <div>
-        <label>Autore:</label>
-        <select th:field="*{author}">
+        <label for="author">Autore:</label>
+
+        <select id="author" th:field="*{author}">
             <option value="">-- Seleziona autore --</option>
+
             <option th:each="author : ${authors}"
                     th:value="${author.id}"
                     th:text="${author.name + ' ' + author.surname}">
             </option>
         </select>
+
+        <p th:if="${#fields.hasErrors('author')}"
+           th:errors="*{author}"
+           style="color: red;">
+        </p>
     </div>
 
     <div>
-        <button type="submit">Salva</button>
+        <label for="urlImage">URL immagine:</label>
+
+        <input id="urlImage"
+               type="text"
+               th:field="*{urlImage}"/>
+
+        <p>
+            Campo facoltativo.
+        </p>
+
+        <p th:if="${#fields.hasErrors('urlImage')}"
+           th:errors="*{urlImage}"
+           style="color: red;">
+        </p>
     </div>
 
+    <br>
+
+    <button type="submit">
+        Salva libro
+    </button>
+
 </form>
+
+<br>
+
+<a th:href="@{/admin/books}">
+    Torna alla gestione libri
+</a>
+
+</body>
+</html>

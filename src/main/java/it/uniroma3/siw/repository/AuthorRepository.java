@@ -10,10 +10,17 @@ import it.uniroma3.siw.model.Author;
 
 public interface AuthorRepository extends JpaRepository<Author, Long> {
 	
-	boolean existsByNameAndSurnameAndBirthDate(
+	boolean existsByNameIgnoreCaseAndSurnameIgnoreCaseAndBirthDate(
             String name,
             String surname,
             LocalDate birthDate
+    );
+	
+	boolean existsByNameIgnoreCaseAndSurnameIgnoreCaseAndBirthDateAndIdNot(
+            String name,
+            String surname,
+            LocalDate birthDate,
+            Long id
     );
 	
 	Optional<Author> findByNameAndSurname(String name, String surname);

@@ -1,36 +1,65 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <title>Biblioteca SIW</title>
 </head>
+
 <body>
 
-<h1>📚 Biblioteca SIW</h1>
+<header style="display: flex;
+               justify-content: space-between;
+               align-items: center;
+               margin-bottom: 20px;">
 
-<p>Benvenuto nel sistema di gestione della biblioteca</p>
+    <h1>📚 Biblioteca SIW</h1>
+
+    <div>
+        <div sec:authorize="isAnonymous()">
+            <a th:href="@{/register}">Registrati</a>
+            |
+            <a th:href="@{/login}">Login</a>
+        </div>
+
+        <div sec:authorize="isAuthenticated()">
+            <span>
+                Benvenuto,
+                <strong sec:authentication="name"></strong>
+            </span>
+
+            <form th:action="@{/logout}"
+                  method="post"
+                  style="display: inline; margin-left: 10px;">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+
+</header>
 
 <hr>
 
 <nav>
     <ul>
         <li>
-            <a href="/books">📖 Lista Libri</a>
+			📚
+            <a th:href="@{/books}">Lista libri</a>
         </li>
 
         <li>
-            <a href="/authors">✍️ Lista Autori</a>
+			✍️
+            <a th:href="@{/authors}">Lista autori</a>
         </li>
 
-        <li>
-            <a href="/loans/my">📦 I tuoi prestiti</a>
+        <li sec:authorize="isAuthenticated() and !hasRole('ADMIN')">
+			📦
+            <a th:href="@{/loans/my}">I tuoi prestiti</a>
         </li>
-
+<br>
         <li>
-            <a href="/register">📝 Registrati</a>
-        </li>
-
-        <li>
-            <a href="/login">🔐 Login</a>
+			⚙️
+            <a th:href="@{/admin}">Area amministrativa</a>
         </li>
     </ul>
 </nav>

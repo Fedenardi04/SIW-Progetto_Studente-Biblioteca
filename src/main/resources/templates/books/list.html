@@ -1,8 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista libri</title>
+</head>
+
+<body>
+
 <h1>Libri</h1>
 
-<a href="/">Home</a> 
+<div style="text-align: right; margin-bottom: 20px;">
+
+    <div sec:authorize="isAnonymous()">
+        <a th:href="@{/register}">Registrati</a>
+        |
+        <a th:href="@{/login}">Login</a>
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+        <span>
+            Utente:
+            <strong sec:authentication="name"></strong>
+        </span>
+
+        <form th:action="@{/logout}"
+              method="post"
+              style="display: inline; margin-left: 10px;">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+
+</div>
+
+<p>
+    <a th:href="@{/}">Home</a>
+</p>
 
 <table border="1">
+
     <thead>
     <tr>
         <th>Immagine</th>
@@ -14,30 +51,47 @@
     </thead>
 
     <tbody>
+
     <tr th:each="book : ${books}">
+
         <td>
-            <img th:if="${book.urlImage}"
+            <img th:if="${book.urlImage != null && !book.urlImage.isEmpty()}"
                  th:src="${book.urlImage}"
-                 alt="cover"
+                 alt="Copertina"
                  width="60"
                  height="90"/>
+
+            <span th:if="${book.urlImage == null || book.urlImage.isEmpty()}">
+                Nessuna immagine
+            </span>
         </td>
 
         <td th:text="${book.title}"></td>
 
         <td>
             <a th:if="${book.author != null}"
-               th:href="@{'/authors/' + ${book.author.id}}"
+               th:href="@{/authors/{id}(id=${book.author.id})}"
                th:text="${book.author.name + ' ' + book.author.surname}">
             </a>
-            <span th:if="${book.author == null}">Nessun autore</span>
+
+            <span th:if="${book.author == null}">
+                Nessun autore
+            </span>
         </td>
 
         <td th:text="${book.year}"></td>
 
         <td>
-            <a th:href="@{'/books/' + ${book.id}}">Dettagli</a>
+            <a th:href="@{/books/{id}(id=${book.id})}">
+                Dettagli
+            </a>
         </td>
+
     </tr>
+
     </tbody>
+
 </table>
+
+</body>
+</html>

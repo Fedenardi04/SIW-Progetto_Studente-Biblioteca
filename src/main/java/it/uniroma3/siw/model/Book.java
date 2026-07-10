@@ -22,20 +22,19 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"title", "year"}))
 public class Book {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;	
 	
-	@NotBlank
+	@NotBlank(message = "Titolo obbligatorio")
 	@Column(nullable = false)
 	private String title;
 	
-	@NotNull
-	@Min(1450)
-	@Max(2026)
+	@NotNull(message = "Anno obbligatorio")
+	@Min(value = 1450, message = "Anno precedente al 1450 non ammesso")
+	@Max(value = 1450, message = "Anno successivo al 2026 non ammesso")
 	@Column(nullable = false)
 	private Integer year;
 	
@@ -44,9 +43,10 @@ public class Book {
     @Column(nullable = true)
 	private String urlImage;
 	
-	@ManyToOne
-	@JoinColumn(name = "author_id")
-	private Author author;
+	@NotNull(message = "Devi selezionare un autore")
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private Author author;
 	
 	@OneToMany(mappedBy = "book")
 	private List<Loan> loans;

@@ -1,40 +1,91 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Nuovo autore</title>
+    <meta charset="UTF-8">
+
+    <title th:text="${author.id == null ? 'Aggiungi autore' : 'Modifica autore'}">
+        Autore
+    </title>
 </head>
+
 <body>
 
-<h1>Aggiungi autore</h1>
+<div style="text-align: right; margin-bottom: 20px;">
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+<h1 th:text="${author.id == null ? 'Aggiungi autore' : 'Modifica autore'}">
+    Autore
+</h1>
 
 <form th:action="@{/admin/authors}"
       th:object="${author}"
       method="post">
 
-    <div>
-        <label>Nome:</label>
-        <input type="text" th:field="*{name}" />
+    <input type="hidden" th:field="*{id}"/>
+
+    <!-- Errori generali, ad esempio autore duplicato -->
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="error : ${#fields.globalErrors()}"
+           th:text="${error}"
+           style="color: red;">
+        </p>
     </div>
 
     <div>
-        <label>Cognome:</label>
-        <input type="text" th:field="*{surname}" />
+        <label for="name">Nome:</label>
+
+        <input id="name"
+               type="text"
+               th:field="*{name}"/>
+
+        <p th:if="${#fields.hasErrors('name')}"
+           th:errors="*{name}"
+           style="color: red;">
+        </p>
     </div>
 
     <div>
-        <label>Data di nascita:</label>
-        <input type="date" th:field="*{birthDate}" />
+        <label for="surname">Cognome:</label>
+
+        <input id="surname"
+               type="text"
+               th:field="*{surname}"/>
+
+        <p th:if="${#fields.hasErrors('surname')}"
+           th:errors="*{surname}"
+           style="color: red;">
+        </p>
+    </div>
+
+    <div>
+        <label for="birthDate">Data di nascita:</label>
+
+        <input id="birthDate"
+               type="date"
+               th:field="*{birthDate}"/>
+
+        <p th:if="${#fields.hasErrors('birthDate')}"
+           th:errors="*{birthDate}"
+           style="color: red;">
+        </p>
     </div>
 
     <br>
 
-    <button type="submit">Salva autore</button>
+    <button type="submit">
+        Salva autore
+    </button>
 
 </form>
 
 <br>
 
-<a href="/admin/authors">Torna alla gestione autori</a>
+<a th:href="@{/admin/authors}">
+    Torna alla gestione autori
+</a>
 
 </body>
 </html>

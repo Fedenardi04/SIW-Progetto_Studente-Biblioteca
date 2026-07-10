@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.service.AuthorService;
+import jakarta.validation.Valid;
 
 @Controller
 public class AuthorController {
@@ -78,8 +80,25 @@ public class AuthorController {
     }
 
     @PostMapping("/admin/authors")
-    public String save(@ModelAttribute("author") Author author) {
+    public String save(@Valid @ModelAttribute("author") Author author, BindingResult bindingResult) {
+
+        if (!bindingResult.hasFieldErrors("name") &&
+            !bindingResult.hasFieldErrors("surname") &&
+            !bindingResult.hasFieldErrors("birthDate") &&
+            authorService.isDuplicate(author)) {
+
+            bindingResult.reject(
+                    "author.duplicate",
+                    "Esiste già un autore con nome, cognome e data di nascita uguali"
+            );
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "admin/authors/form";
+        }
+
         authorService.saveAuthor(author);
+
         return "redirect:/admin/authors";
     }
 

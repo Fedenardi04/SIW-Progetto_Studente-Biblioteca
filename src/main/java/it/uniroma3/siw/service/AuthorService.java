@@ -12,34 +12,63 @@ import jakarta.transaction.Transactional;
 @Service
 public class AuthorService {
 
-	private AuthorRepository authorRepository;
+    private final AuthorRepository authorRepository;
 
-	public AuthorService(AuthorRepository authorRepository) {
-		this.authorRepository = authorRepository;
-	}
+    public AuthorService(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
+    }
 
     public List<Author> findAllAuthors() {
-        return this.authorRepository.findAll();
+        return authorRepository.findAll();
     }
 
     public Optional<Author> findAuthorById(Long id) {
-        return this.authorRepository.findById(id);
+        return authorRepository.findById(id);
     }
 
     public Optional<Author> findByIdWithBooks(Long id) {
-        return this.authorRepository.findByIdWithBooks(id);
+        return authorRepository.findByIdWithBooks(id);
+    }
+
+    public boolean isDuplicate(Author author) {
+
+        if (author.getName() == null ||
+            author.getSurname() == null ||
+            author.getBirthDate() == null) {
+            return false;
+        }
+
+        String normalizedName = author.getName().trim();
+        String normalizedSurname = author.getSurname().trim();
+
+        if (author.getId() == null) {
+            return authorRepository
+                    .existsByNameIgnoreCaseAndSurnameIgnoreCaseAndBirthDate(
+                            normalizedName,
+                            normalizedSurname,
+                            author.getBirthDate()
+                    );
+        }
+
+        return authorRepository
+                .existsByNameIgnoreCaseAndSurnameIgnoreCaseAndBirthDateAndIdNot(
+                        normalizedName,
+                        normalizedSurname,
+                        author.getBirthDate(),
+                        author.getId()
+                );
     }
 
     @Transactional
     public Author saveAuthor(Author author) {
+        author.setName(author.getName().trim());
+        author.setSurname(author.getSurname().trim());
 
         return authorRepository.save(author);
-
-
     }
 
     @Transactional
     public void deleteAuthor(Long id) {
-        this.authorRepository.deleteById(id);
+        authorRepository.deleteById(id);
     }
 }

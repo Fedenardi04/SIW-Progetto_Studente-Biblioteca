@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.service.AuthorService;
 import it.uniroma3.siw.service.BookService;
 import it.uniroma3.siw.service.LoanService;
+import jakarta.validation.Valid;
 
 @Controller
 public class BookController {
@@ -91,8 +93,29 @@ public class BookController {
     }
 
     @PostMapping("/admin/books")
-    public String saveBook(@ModelAttribute("book") Book book) {
+    public String saveBook(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult,Model model) {
+
+        if (!bindingResult.hasFieldErrors("title") &&
+            !bindingResult.hasFieldErrors("author") &&
+            bookService.isDuplicate(book)) {
+
+            bindingResult.reject(
+                    "book.duplicate",
+                    "Esiste già un libro con questo titolo e questo autore"
+            );
+        }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute(
+                    "authors",
+                    authorService.findAllAuthors()
+            );
+
+            return "admin/books/form";
+        }
+
         bookService.saveBook(book);
+
         return "redirect:/admin/books";
     }
 

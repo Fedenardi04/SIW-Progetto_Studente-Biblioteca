@@ -11,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 @Entity
 public class Author {
@@ -18,14 +20,20 @@ public class Author {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@NotBlank
-	@Column(nullable = false)
-	private String name;
-	@NotBlank
-	@Column(nullable = false)
-	private String surname;
 	
-	private LocalDate birthDate;
+	@NotBlank(message = "Nome obbligatorio")
+    @Column(nullable = false)
+    private String name;
+
+    @NotBlank(message = "Cognome obbligatorio")
+    @Column(nullable = false)
+    private String surname;
+
+    @NotNull(message = "Data di nascita obbligatoria")
+    @Past(message = "La data di nascita deve essere precedente a oggi")
+    @Column(nullable = false)
+    private LocalDate birthDate;
+    
 	@OneToMany(mappedBy = "author")
 	private List<Book> books;
 

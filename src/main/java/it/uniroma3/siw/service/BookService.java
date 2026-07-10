@@ -27,17 +27,36 @@ public class BookService {
         return bookRepository.findAll();
     }
 	
+	public boolean isDuplicate(Book book) {
+
+	    if (book.getTitle() == null ||
+	        book.getAuthor() == null ||
+	        book.getAuthor().getId() == null) {
+
+	        return false;
+	    }
+
+	    String normalizedTitle = book.getTitle().trim();
+
+	    if (book.getId() == null) {
+	        return bookRepository.existsByTitleIgnoreCaseAndAuthorId(normalizedTitle, book.getAuthor().getId());
+	    }
+
+	    return bookRepository.existsByTitleIgnoreCaseAndAuthorIdAndIdNot(normalizedTitle,book.getAuthor().getId(),book.getId());
+	}
+
+	
 	@Transactional
 	public Book saveBook(Book book) {
-	
-        return bookRepository.save(book);   
-		    
+	    book.setTitle(book.getTitle().trim());
+	    return bookRepository.save(book);
 	}
 	
 	@Transactional
 	public void deleteBook(Long id) {
         bookRepository.deleteById(id);
     }
-
+	
+	
 	
 }
