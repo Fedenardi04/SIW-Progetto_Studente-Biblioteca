@@ -24,7 +24,7 @@ public class BookService {
 	}
 	
 	public List<Book> findAllBooks() {
-        return bookRepository.findAll();
+        return bookRepository.findAllWithAuthor();
     }
 	
 	public boolean isDuplicate(Book book) {

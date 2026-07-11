@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.repository.UserRepository;
-import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {

@@ -4,6 +4,7 @@ package it.uniroma3.siw.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,4 +24,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("SELECT b FROM Book b JOIN FETCH b.author")
     List<Book> findAllWithAuthor();
+    
+    
+    @EntityGraph(attributePaths = {"author"})
+    @Query("SELECT b FROM Book b")
+    List<Book> findAllWithAuthorEntityGraph();
 }
