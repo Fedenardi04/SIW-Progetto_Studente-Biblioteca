@@ -16,6 +16,7 @@ import it.uniroma3.siw.repository.CredentialsRepository;
 import it.uniroma3.siw.repository.ReviewRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
@@ -41,18 +42,11 @@ public class ReviewService {
     }
 
     @Transactional
-    public ReviewDTO saveReview(
-            Long bookId,
-            CreateReviewDTO reviewDTO,
-            String username) {
+    public ReviewDTO saveReview(Long bookId, CreateReviewDTO reviewDTO, String username) {
 
-        Book book = bookRepository.findById(bookId)
-                .orElseThrow(() ->
-                        new RuntimeException("Libro non trovato"));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Libro non trovato"));
 
-        Credentials credentials =
-                credentialsRepository.findByUsername(username)
-                .orElseThrow(() ->
+        Credentials credentials = credentialsRepository.findByUsername(username).orElseThrow(() ->
                         new RuntimeException("Utente non trovato"));
 
         Review review = new Review();

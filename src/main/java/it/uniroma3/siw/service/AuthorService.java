@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.repository.AuthorRepository;
-import jakarta.transaction.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class AuthorService {
 
     private final AuthorRepository authorRepository;

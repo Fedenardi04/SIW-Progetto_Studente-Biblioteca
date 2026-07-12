@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.repository.BookRepository;
-import jakarta.transaction.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class BookService {
 
 	private BookRepository bookRepository;

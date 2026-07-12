@@ -16,6 +16,7 @@ import it.uniroma3.siw.repository.LoanRepository;
 
 
 @Service
+@Transactional(readOnly = true)
 public class LoanService {
 	private LoanRepository loanRepository;
 	private BookRepository bookRepository;
