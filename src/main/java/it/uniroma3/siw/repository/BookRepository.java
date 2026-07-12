@@ -21,6 +21,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     boolean existsByTitleIgnoreCaseAndAuthorId(String title, Long authorId);
 
     boolean existsByTitleIgnoreCaseAndAuthorIdAndIdNot(String title, Long authorId, Long id);
+    
+    boolean existsByAuthorId(Long authorId);
 
     @Query("SELECT b FROM Book b JOIN FETCH b.author")
     List<Book> findAllWithAuthor();

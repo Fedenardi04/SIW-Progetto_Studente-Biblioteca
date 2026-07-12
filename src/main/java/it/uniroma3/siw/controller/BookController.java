@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.service.AuthorService;
@@ -135,8 +136,24 @@ public class BookController {
     }
 
     @PostMapping("/admin/books/{id}/delete")
-    public String deleteBook(@PathVariable Long id) {
-        bookService.deleteBook(id);
+    public String deleteBook(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        
+    	if (loanService.hasLoans(id)) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Il libro non può essere eliminato perché è associato a uno o più prestiti."
+            );
+
+            return "redirect:/admin/books";
+        }
+    	
+    	bookService.deleteBook(id);
+    	
+    	redirectAttributes.addFlashAttribute(
+                "successMessage",
+                "Libro eliminato correttamente."
+        );
+    	
         return "redirect:/admin/books";
     }
 }

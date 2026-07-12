@@ -61,6 +61,10 @@ public class LoanService {
 	public boolean isBookCurrentlyLoaned(Long bookId) {
 		return loanRepository.existsByBookIdAndReturnedFalse(bookId);
 	}
+	
+	public boolean hasLoans(Long bookId) {
+	    return loanRepository.existsByBookId(bookId);
+	}
 
 	@Transactional
 	public Loan saveLoan(Long bookId, Loan loan, String username) {

@@ -45,6 +45,10 @@ public class BookService {
 
 	    return bookRepository.existsByTitleIgnoreCaseAndAuthorIdAndIdNot(normalizedTitle,book.getAuthor().getId(),book.getId());
 	}
+	
+	public boolean hasBooksByAuthor(Long authorId) {
+	    return bookRepository.existsByAuthorId(authorId);
+	}
 
 	
 	@Transactional

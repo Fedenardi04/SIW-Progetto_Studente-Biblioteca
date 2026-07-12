@@ -9,19 +9,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.service.AuthorService;
+import it.uniroma3.siw.service.BookService;
 import jakarta.validation.Valid;
 
 @Controller
 public class AuthorController {
 
-    private final AuthorService authorService;
+	private final AuthorService authorService;
+	private final BookService bookService;
 
-    public AuthorController(AuthorService authorService) {
-        this.authorService = authorService;
-    }
+	public AuthorController(AuthorService authorService, BookService bookService) {
+	    this.authorService = authorService;
+	    this.bookService = bookService;
+	}
 
     /*
      * PAGINE PUBBLICHE
@@ -117,8 +121,22 @@ public class AuthorController {
     }
 
     @PostMapping("/admin/authors/{id}/delete")
-    public String deleteAuthor(@PathVariable Long id) {
+    public String deleteAuthor(@PathVariable Long id,
+                               RedirectAttributes redirectAttributes) {
+
+        if (bookService.hasBooksByAuthor(id)) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "L'autore non può essere eliminato perché ha uno o più libri associati."
+            );
+
+            return "redirect:/admin/authors";
+        }
+
         authorService.deleteAuthor(id);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Autore eliminato correttamente.");
+
         return "redirect:/admin/authors";
     }
 }
