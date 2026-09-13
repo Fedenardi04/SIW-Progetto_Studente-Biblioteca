@@ -1,0 +1,278 @@
+/* STILE GENERALE */
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #eef2f1;
+    color: #243238;
+}
+
+main {
+    width: 80%;
+    margin: 30px auto;
+}
+
+h1 {
+    color: #143642;
+}
+
+h2 {
+    color: #333333;
+}
+
+a {
+    color: #0f6674;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+/* BARRA DI NAVIGAZIONE */
+
+.barra-navigazione {
+    background-color: #143642;
+    padding: 16px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.barra-navigazione .titolo-sito {
+    color: #f6bd60;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.barra-navigazione .collegamenti {
+    display: flex;
+    align-items: center;
+}
+
+.barra-navigazione .collegamenti a {
+    color: white;
+    margin-left: 20px;
+}
+
+.barra-navigazione .collegamenti a:hover {
+    color: #f6bd60;
+}
+
+.barra-navigazione form {
+    display: inline;
+    margin-left: 15px;
+}
+
+
+/* HOME */
+
+.presentazione {
+    background-color: #fff8e8;
+    color: #243238;
+    padding: 50px 10%;
+    border-bottom: 4px solid #f6bd60;
+}
+
+.presentazione h1 {
+    color: #143642;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.sezioni-home {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+
+.scheda-home {
+    width: 22%;
+    padding: 30px 10px;
+    background-color: white;
+    border: 2px solid #f6bd60;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.scheda-home a {
+    font-weight: bold;
+}
+
+
+/* RIQUADRI, LISTE E TABELLE */
+
+.contenitore,
+.dettaglio,
+.sezione,
+.form-container {
+    padding: 25px;
+    margin-bottom: 20px;
+    background-color: white;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+}
+
+.lista {
+    padding: 0;
+    list-style-type: none;
+}
+
+.lista li {
+    padding: 12px 5px;
+    border-bottom: 1px solid #dddddd;
+}
+
+.lista li:last-child {
+    border-bottom: none;
+}
+
+table {
+    width: 100%;
+    margin: 20px 0;
+    background-color: white;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    text-align: left;
+}
+
+th {
+    color: white;
+    background-color: #143642;
+}
+
+
+/* FORM */
+
+.campo {
+    margin-bottom: 15px;
+}
+
+.campo label {
+    display: block;
+    font-weight: bold;
+}
+
+input,
+select,
+textarea {
+    padding: 8px;
+    margin: 5px;
+    border: 1px solid #aaaaaa;
+    border-radius: 4px;
+}
+
+button,
+.pulsante {
+    padding: 9px 15px;
+    margin: 5px;
+    color: #1e2c31;
+    background-color: #e09f3e;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover,
+.pulsante:hover {
+    background-color: #c98522;
+    text-decoration: none;
+}
+
+.form-inline {
+    display: inline;
+}
+
+.azioni-utente {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.azioni {
+    display: flex;
+    align-items: center;
+}
+
+
+/* MESSAGGI */
+
+.errore {
+    padding: 10px;
+    margin-bottom: 15px;
+    color: #b00020;
+    background-color: #ffecec;
+    border: 1px solid #b00020;
+    border-radius: 4px;
+}
+
+.errore-campo {
+    display: block;
+    color: #b00020;
+}
+
+.successo {
+    padding: 10px;
+    margin-bottom: 15px;
+    color: #267326;
+    background-color: #edf8ed;
+    border: 1px solid #267326;
+    border-radius: 4px;
+}
+
+
+/* AREA UTENTE E FOOTER */
+
+.utente {
+    margin-top: 30px;
+    text-align: center;
+}
+
+footer {
+    padding: 20px;
+    margin-top: 40px;
+    color: white;
+    background-color: #143642;
+    text-align: center;
+}
+
+
+/* SCHERMI PICCOLI */
+
+@media (max-width: 800px) {
+
+    main {
+        width: 95%;
+    }
+
+    .barra-navigazione {
+        flex-direction: column;
+    }
+
+    .barra-navigazione .collegamenti {
+        margin-top: 15px;
+        flex-direction: column;
+    }
+
+    .barra-navigazione .collegamenti a {
+        margin: 5px;
+    }
+
+    .sezioni-home {
+        flex-direction: column;
+    }
+
+    .scheda-home {
+        width: auto;
+        margin-bottom: 10px;
+    }
+
+    .azioni-utente {
+        text-align: left;
+    }
+}

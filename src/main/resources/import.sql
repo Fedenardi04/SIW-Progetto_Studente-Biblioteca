@@ -20,7 +20,7 @@ INSERT INTO users(id, name, surname, email) VALUES (nextval('users_seq'), 'Feder
 INSERT INTO users(id, name, surname, email) VALUES (nextval('users_seq'), 'Mario', 'Rossi', 'mario.rossi@email.it');
 INSERT INTO users(id, name, surname, email) VALUES (nextval('users_seq'), 'Lucia', 'Bianchi', 'lucia.bianchi@email.it');
 
-INSERT INTO credentials(id, username, password, role, user_id) VALUES (nextval('credentials_seq'), 'federico', '$2y$12$mF4EhcqYyNID2ctzCAzmxeMo8Ko91Mi22QA9YQF1SWOpaoNYGsxE2', 'ADMIN', (SELECT id FROM users WHERE email = 'federico.admin@email.it'));
+INSERT INTO credentials(id, username, password, role, user_id) VALUES (nextval('credentials_seq'), 'admin', '$2y$12$Pqppr3hHSmhStEj9oJHKCOT5x2Xy8HYZlmLgzrvdnmr5CF2UOC0Ca', 'ADMIN', (SELECT id FROM users WHERE email = 'federico.admin@email.it'));
 INSERT INTO credentials(id, username, password, role, user_id) VALUES (nextval('credentials_seq'), 'mario', '$2y$12$hW8h7qQd30BjiVvqDcHgMeIa5m121dLi6ESynX20ZkAOTFsiS0GKC', 'DEFAULT', (SELECT id FROM users WHERE email = 'mario.rossi@email.it'));
 INSERT INTO credentials(id, username, password, role, user_id) VALUES (nextval('credentials_seq'), 'lucia', '$2y$12$hW8h7qQd30BjiVvqDcHgMeIa5m121dLi6ESynX20ZkAOTFsiS0GKC', 'DEFAULT', (SELECT id FROM users WHERE email = 'lucia.bianchi@email.it'));
 

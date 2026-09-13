@@ -19,51 +19,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-            .authorizeHttpRequests(auth -> auth
-
-                /*
-                 * AREA AMMINISTRATIVA
-                 */
-
-                .requestMatchers("/admin/**")
-                    .hasRole("ADMIN")
-
-                /*
-                 * API RECENSIONI
-                 *
-                 * GET: pubblica, perché tutti possono leggere le recensioni.
-                 * POST: riservata agli utenti autenticati.
-                 */
-
-                .requestMatchers(
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/admin/**").hasRole("ADMIN")
+            .requestMatchers(
                     HttpMethod.GET,
                     "/api/books/*/reviews"
-                )
-                    .permitAll()
+            )
+            .permitAll()
 
-                .requestMatchers(
-                    HttpMethod.POST,
-                    "/api/books/*/reviews"
-                )
-                    .authenticated()
-
-                /*
-                 * FUNZIONI RISERVATE A UTENTI AUTENTICATI
-                 */
-
-                .requestMatchers(
+            .requestMatchers(
+                HttpMethod.POST,
+                "/api/books/*/reviews"
+            )
+            .authenticated().requestMatchers(
                     "/books/*/loans/new",
                     "/books/*/loans",
                     "/loans/my"
-                )
-                    .authenticated()
-
-                /*
-                 * PAGINE PUBBLICHE
-                 */
-
-                .requestMatchers(
+                ).authenticated().requestMatchers(
                     "/",
                     "/books",
                     "/books/**",
@@ -76,21 +47,7 @@ public class SecurityConfig {
                     "/images/**",
                     "/favicon.ico",
                     "/error"
-                )
-                    .permitAll()
-
-                /*
-                 * Tutto ciò che non è stato dichiarato sopra
-                 * richiede l'autenticazione.
-                 */
-
-                .anyRequest()
-                    .authenticated()
-            )
-
-            .formLogin(login -> login
-                .loginPage("/login")
-
+                ).permitAll().anyRequest().authenticated()).formLogin(login -> login.loginPage("/login")
                 .successHandler((request, response, authentication) -> {
 
                     boolean isAdmin = authentication
